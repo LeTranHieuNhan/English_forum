@@ -6,7 +6,6 @@ import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfi
 import org.springframework.web.bind.annotation.CrossOrigin;
 
 @SpringBootApplication(exclude = {SecurityAutoConfiguration.class})
-@CrossOrigin(origins = "http://localhost:3000")
 
 public class EnglishForumApplication {
 
