@@ -1,5 +1,6 @@
 package org.example.englishforum.service.impl;
 
+import com.cloudinary.Cloudinary;
 import lombok.RequiredArgsConstructor;
 import org.example.englishforum.dto.UserDto;
 import org.example.englishforum.entity.User;
@@ -10,9 +11,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -21,6 +26,7 @@ public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final GenericMapper genericMapper;
+    private final Cloudinary cloudinary;
 
     @Override
     public List<UserDto> findAllUsers() {
@@ -40,8 +46,14 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserDto createUser(UserDto newUser) {
+    @Transactional
+    public UserDto createUser(UserDto newUser, MultipartFile multipartFile) throws IOException {
         newUser.setPassword(passwordEncoder.encode(newUser.getPassword()));
+        newUser.setAvatar(cloudinary.uploader()
+                .upload(multipartFile.getBytes(),
+                        Map.of("public_id", UUID.randomUUID().toString()))
+                .get("url")
+                .toString());
         User savedUser = userRepository.save(genericMapper.map(newUser, User.class));
         return genericMapper.map(savedUser, UserDto.class);
     }
