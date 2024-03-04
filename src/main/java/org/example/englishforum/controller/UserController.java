@@ -11,7 +11,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 
 @RestController
@@ -32,7 +34,8 @@ public class UserController {
     }
 
     @PostMapping()
-    public ResponseEntity<UserDto> createUser(@RequestBody UserDto newUser) {
+        public ResponseEntity<UserDto> createUser(@RequestBody UserDto newUser
+    ) throws IOException {
         return new ResponseEntity<>(userService.createUser(newUser), HttpStatus.CREATED);
     }
 
@@ -40,7 +43,7 @@ public class UserController {
     public ResponseEntity<UserDto> updateUser(@PathVariable Long id, @RequestBody UserDto userDto) {
 
 
-       return new ResponseEntity<>( userService.updateUser(id, userDto),HttpStatus.OK);
+        return new ResponseEntity<>(userService.updateUser(id, userDto), HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")
