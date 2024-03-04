@@ -47,13 +47,13 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
-    public UserDto createUser(UserDto newUser, MultipartFile multipartFile) throws IOException {
+    public UserDto createUser(UserDto newUser) throws IOException {
         newUser.setPassword(passwordEncoder.encode(newUser.getPassword()));
-        newUser.setAvatar(cloudinary.uploader()
-                .upload(multipartFile.getBytes(),
-                        Map.of("public_id", UUID.randomUUID().toString()))
-                .get("url")
-                .toString());
+//        newUser.setAvatar(cloudinary.uploader()
+//                .upload(multipartFile.getBytes(),
+//                        Map.of("public_id", UUID.randomUUID().toString()))
+//                .get("url")
+//                .toString());
         User savedUser = userRepository.save(genericMapper.map(newUser, User.class));
         return genericMapper.map(savedUser, UserDto.class);
     }

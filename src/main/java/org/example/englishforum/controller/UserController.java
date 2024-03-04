@@ -34,8 +34,9 @@ public class UserController {
     }
 
     @PostMapping()
-        public ResponseEntity<UserDto> createUser(@RequestBody UserDto newUser, @RequestParam("image") MultipartFile multipartFile) throws IOException {
-        return new ResponseEntity<>(userService.createUser(newUser, multipartFile), HttpStatus.CREATED);
+        public ResponseEntity<UserDto> createUser(@RequestBody UserDto newUser
+    ) throws IOException {
+        return new ResponseEntity<>(userService.createUser(newUser), HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
