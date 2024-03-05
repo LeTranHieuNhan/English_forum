@@ -13,8 +13,7 @@ public interface UserService {
 
     UserDto findUserById(Long postId);
 
-    UserDto createUser(UserDto userDTO
-    ) throws IOException;
+    UserDto createUser(UserDto userDTO) throws IOException;
 
     void deleteUser(Long id);
 
