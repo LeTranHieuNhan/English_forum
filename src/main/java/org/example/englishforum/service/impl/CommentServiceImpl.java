@@ -43,7 +43,6 @@ public class CommentServiceImpl implements CommentService {
         commentDto.setUserDto(userDto);
 
 
-
         return commentDto;
     }
 
@@ -62,7 +61,6 @@ public class CommentServiceImpl implements CommentService {
             // Set UserDto
             UserDto userDto = genericMapper.map(comment.getUser(), UserDto.class);
             commentDto.setUserDto(userDto);
-
 
 
             commentDtos.add(commentDto);
@@ -96,13 +94,17 @@ public class CommentServiceImpl implements CommentService {
         createdCommentDto.setUserDto(userDto);
 
 
-
         return createdCommentDto;
     }
 
     @Override
+    @Transactional
     public void deleteComment(Long id) {
         if (commentRepository.existsById(id)) {
+            Comment exitComment = commentRepository.findById(id).get();
+            Post post = postRepository.findById(exitComment.getPost().getId()).get();
+            User user = userRepository.findById(exitComment.getUser().getId()).get();
+
             commentRepository.deleteById(id);
         }
     }
