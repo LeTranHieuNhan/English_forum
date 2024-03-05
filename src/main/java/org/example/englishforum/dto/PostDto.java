@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.example.englishforum.entity.Comment;
+import org.example.englishforum.entity.Reaction;
 import org.example.englishforum.entity.User;
 
 
@@ -24,4 +25,5 @@ public class PostDto {
 
     private UserDto user;
     private List<CommentDto> comments;
+    private List<ReactionDto> reactions;
 }
