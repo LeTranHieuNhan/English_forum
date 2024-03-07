@@ -23,6 +23,8 @@ public class Post {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String title;
+    @Column(columnDefinition = "TEXT")
+    @Lob
     private String text;
     private Date time_created;
     private Date time_updated;
