@@ -11,7 +11,7 @@ public interface PostService {
 
     PostDto findPostById(Long id);
 
-    PostDto createPost(PostDto newPost,long userId);
+    PostDto createPost(PostDto newPost,long userId, long categoryId);
 
     void deletePost(Long id);
 

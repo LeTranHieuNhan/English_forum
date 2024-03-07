@@ -8,6 +8,7 @@ import org.example.englishforum.repository.CategoryRepository;
 import org.example.englishforum.repository.PostRepository;
 import org.example.englishforum.service.CategoryService;
 import org.example.englishforum.utils.GenericMapper;
+import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -44,7 +45,7 @@ public class CategoryServiceImpl implements CategoryService {
     @Transactional
     public CategoryDto createCategory(String name) {
         Category category = new Category();
-
+        System.out.println(name);
         category.setName(name);
         Category savedCategory = categoryRepository.save(category);
 
@@ -82,7 +83,13 @@ public class CategoryServiceImpl implements CategoryService {
         Category existCategory = category.get();
         existCategory.setName(name);
 
+        List<Post> posts = category.get().getPosts();
+
+        posts.forEach(post -> post.getCategory().setName(existCategory.getName()));
+
         Category savedCategory = categoryRepository.save(existCategory);
+        postRepository.saveAll(posts);
+
         return genericMapper.map(savedCategory, CategoryDto.class);
     }
 }

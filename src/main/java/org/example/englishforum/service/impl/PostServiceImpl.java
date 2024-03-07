@@ -1,11 +1,14 @@
 package org.example.englishforum.service.impl;
 
 import lombok.RequiredArgsConstructor;
+import org.example.englishforum.dto.CategoryDto;
 import org.example.englishforum.dto.PostDto;
 import org.example.englishforum.dto.UserDto;
 import org.example.englishforum.dto.response.PostResponse;
+import org.example.englishforum.entity.Category;
 import org.example.englishforum.entity.Post;
 import org.example.englishforum.entity.User;
+import org.example.englishforum.repository.CategoryRepository;
 import org.example.englishforum.repository.PostRepository;
 import org.example.englishforum.repository.UserRepository;
 import org.example.englishforum.service.PostService;
@@ -26,6 +29,7 @@ import org.springframework.data.domain.Pageable;
 @RequiredArgsConstructor
 public class PostServiceImpl implements PostService {
     private final PostRepository postRepository;
+    private final CategoryRepository categoryRepository;
     private final GenericMapper genericMapper;
     private final UserRepository userRepository;
 
@@ -60,19 +64,26 @@ public class PostServiceImpl implements PostService {
 
     @Transactional
     @Override
-    public PostDto createPost(PostDto newPostDto, long userId) {
+    public PostDto createPost(PostDto newPostDto, long userId, long categoryId) {
         newPostDto.setTime_created(new Date());
 
         Post newPostEntity = genericMapper.map(newPostDto, Post.class);
-
         Optional<User> userOptional = userRepository.findById(userId);
+        Optional<Category> categoryOptional = categoryRepository.findById(categoryId);
 
         if (userOptional.isEmpty()) {
             throw new RuntimeException("User does not exist");
         }
+        if (categoryOptional.isEmpty()) {
+            throw new RuntimeException("Category does not exist");
+        }
+
 
         User user = userOptional.get();
+        Category category = categoryOptional.get();
+
         newPostEntity.setUser(user);
+        newPostEntity.setCategory(category);
 
         Post savedPostEntity = postRepository.save(newPostEntity);
 

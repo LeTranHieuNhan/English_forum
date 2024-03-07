@@ -2,8 +2,11 @@ package org.example.englishforum.service.impl;
 
 import com.cloudinary.Cloudinary;
 import lombok.RequiredArgsConstructor;
+import org.example.englishforum.dto.RoleDto;
 import org.example.englishforum.dto.UserDto;
+import org.example.englishforum.entity.Role;
 import org.example.englishforum.entity.User;
+import org.example.englishforum.repository.RoleRepository;
 import org.example.englishforum.repository.UserRepository;
 import org.example.englishforum.service.UserService;
 import org.example.englishforum.utils.GenericMapper;
@@ -27,6 +30,7 @@ public class UserServiceImpl implements UserService {
     private final PasswordEncoder passwordEncoder;
     private final GenericMapper genericMapper;
     private final Cloudinary cloudinary;
+    private final RoleRepository roleRepository;
 
     @Override
     public List<UserDto> findAllUsers() {
@@ -49,14 +53,23 @@ public class UserServiceImpl implements UserService {
     @Transactional
     public UserDto createUser(UserDto newUser) throws IOException {
         newUser.setPassword(passwordEncoder.encode(newUser.getPassword()));
-//        newUser.setAvatar(cloudinary.uploader()
-//                .upload(multipartFile.getBytes(),
-//                        Map.of("public_id", UUID.randomUUID().toString()))
-//                .get("url")
-//                .toString());
-        User savedUser = userRepository.save(genericMapper.map(newUser, User.class));
-        return genericMapper.map(savedUser, UserDto.class);
+        Role role = roleRepository.findByName("USER").orElseThrow(() -> new RuntimeException("Role does not exit "));
+        User user = genericMapper.map(newUser, User.class);
+
+        // Ensure that the role field is initialized
+        if (user.getRole() == null) {
+            user.setRole(new Role());
+        }
+
+        user.setRole(role);
+
+        User savedUser = userRepository.save(user);
+        UserDto map = genericMapper.map(savedUser, UserDto.class);
+        map.setRole(genericMapper.map(role, RoleDto.class));
+
+        return map;
     }
+
 
     @Override
     @Transactional

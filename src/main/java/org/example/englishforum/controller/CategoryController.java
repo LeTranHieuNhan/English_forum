@@ -30,13 +30,13 @@ public class CategoryController {
     }
 
     @PostMapping
-    public ResponseEntity<CategoryDto> createCategory(@RequestBody String name) {
+    public ResponseEntity<CategoryDto> createCategory(@RequestParam String name) {
         CategoryDto createdCategory = categoryService.createCategory(name);
         return new ResponseEntity<>(createdCategory, HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<CategoryDto> updateCategory(@PathVariable Long id, @RequestBody String name) {
+    public ResponseEntity<CategoryDto> updateCategory(@PathVariable Long id, @RequestParam String name) {
         CategoryDto updatedCategory = categoryService.udpateCategory(id, name);
         return new ResponseEntity<>(updatedCategory, HttpStatus.OK);
     }
