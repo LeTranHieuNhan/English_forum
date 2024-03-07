@@ -20,5 +20,6 @@ public class UserDto {
     private String avatar;
     private boolean isBan;
 
+    private RoleDto role;
 
 }

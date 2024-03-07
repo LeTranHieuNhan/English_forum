@@ -1,7 +1,7 @@
 package org.example.englishforum.controller;
 
 import lombok.RequiredArgsConstructor;
-import org.example.englishforum.service.impl.FileService;
+import org.example.englishforum.service.FileService;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 

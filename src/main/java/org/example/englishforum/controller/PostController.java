@@ -34,8 +34,8 @@ public class PostController {
     }
 
     @PostMapping("/user/{userId}")
-    public ResponseEntity<PostDto> createPost(@RequestBody PostDto postDto, @PathVariable long userId) {
-        return new ResponseEntity<>(postService.createPost(postDto,userId), HttpStatus.OK);
+    public ResponseEntity<PostDto> createPost(@RequestBody PostDto postDto, @PathVariable long userId, @RequestParam long categoryId) {
+        return new ResponseEntity<>(postService.createPost(postDto, userId, categoryId), HttpStatus.OK);
     }
 
     @PutMapping("/{id}")

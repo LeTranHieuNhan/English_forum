@@ -1,4 +1,4 @@
-package org.example.englishforum.service.impl;
+package org.example.englishforum.service;
 
 import org.springframework.web.multipart.MultipartFile;
 
