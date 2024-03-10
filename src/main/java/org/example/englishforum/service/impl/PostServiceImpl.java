@@ -9,6 +9,7 @@ import org.example.englishforum.entity.Category;
 import org.example.englishforum.entity.Post;
 import org.example.englishforum.entity.User;
 import org.example.englishforum.repository.CategoryRepository;
+import org.example.englishforum.repository.CommentRepository;
 import org.example.englishforum.repository.PostRepository;
 import org.example.englishforum.repository.UserRepository;
 import org.example.englishforum.service.PostService;
@@ -32,6 +33,7 @@ public class PostServiceImpl implements PostService {
     private final CategoryRepository categoryRepository;
     private final GenericMapper genericMapper;
     private final UserRepository userRepository;
+    private final CommentRepository commentRepository;
 
     @Override
     public PostResponse findAllPosts(int pageNo, int pageSize, String sortBy, String sortDir) {
@@ -100,7 +102,11 @@ public class PostServiceImpl implements PostService {
     public void deletePost(Long id) {
         boolean isExist = postRepository.existsById(id);
 
+
         if (isExist) {
+            Post post = postRepository.findById(id).get();
+            commentRepository.deleteAll(post.getComments());
+
             postRepository.deleteById(id);
         }
     }
