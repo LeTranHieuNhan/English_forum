@@ -16,6 +16,6 @@ public class CommentDto {
     private Long id;
     private String body;
 
-    private UserDto userDto;
+    private UserDto user;
 //    private PostDto postDto;
 }

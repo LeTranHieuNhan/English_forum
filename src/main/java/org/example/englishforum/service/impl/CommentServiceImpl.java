@@ -40,7 +40,7 @@ public class CommentServiceImpl implements CommentService {
 
         // Set UserDto
         UserDto userDto = genericMapper.map(comment.get().getUser(), UserDto.class);
-        commentDto.setUserDto(userDto);
+        commentDto.setUser(userDto);
 
 
         return commentDto;
@@ -60,7 +60,7 @@ public class CommentServiceImpl implements CommentService {
 
             // Set UserDto
             UserDto userDto = genericMapper.map(comment.getUser(), UserDto.class);
-            commentDto.setUserDto(userDto);
+            commentDto.setUser(userDto);
 
 
             commentDtos.add(commentDto);
@@ -91,7 +91,7 @@ public class CommentServiceImpl implements CommentService {
 
         // Set UserDto
         UserDto userDto = genericMapper.map(user.get(), UserDto.class);
-        createdCommentDto.setUserDto(userDto);
+        createdCommentDto.setUser(userDto);
 
 
         return createdCommentDto;
@@ -125,7 +125,7 @@ public class CommentServiceImpl implements CommentService {
 
         // Set UserDto
         UserDto userDto = genericMapper.map(comment.getUser(), UserDto.class);
-        updatedCommentDto.setUserDto(userDto);
+        updatedCommentDto.setUser(userDto);
 
         // Set PostDto
 
