@@ -6,6 +6,7 @@ import org.example.englishforum.dto.PostDto;
 import org.example.englishforum.dto.UserDto;
 import org.example.englishforum.dto.response.PostResponse;
 import org.example.englishforum.entity.Category;
+import org.example.englishforum.entity.Comment;
 import org.example.englishforum.entity.Post;
 import org.example.englishforum.entity.User;
 import org.example.englishforum.repository.CategoryRepository;
