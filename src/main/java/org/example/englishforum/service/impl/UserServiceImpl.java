@@ -11,6 +11,9 @@ import org.example.englishforum.repository.UserRepository;
 import org.example.englishforum.service.UserService;
 import org.example.englishforum.utils.GenericMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -36,6 +39,17 @@ public class UserServiceImpl implements UserService {
     public List<UserDto> findAllUsers() {
         List<User> users = userRepository.findAll();
         return genericMapper.mapList(users, UserDto.class);
+    }
+
+    @Override
+    public UserDetailsService userDetailsService() {
+        return new UserDetailsService() {
+            @Override
+            public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+                return userRepository.findByEmail(username)
+                        .orElseThrow(() -> new UsernameNotFoundException("User not found with email: " + username ));
+            }
+        };
     }
 
     @Override
