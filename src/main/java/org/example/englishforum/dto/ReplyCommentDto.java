@@ -1,22 +1,18 @@
 package org.example.englishforum.dto;
 
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.example.englishforum.entity.Comment;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Date;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class CommentDto {
+public class ReplyCommentDto {
     private Long id;
     private String body;
-
+    private Date time_created;
+    private Date time_updated;
     private UserDto user;
-    private ReplyCommentDto replyComment;
-//    private PostDto postDto;
 }

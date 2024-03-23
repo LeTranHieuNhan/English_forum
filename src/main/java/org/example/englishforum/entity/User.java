@@ -34,6 +34,8 @@ public class User implements UserDetails {
     @ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
     @JoinColumn(name = "role_id")
     private Role role;
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<ReplyComment> replyComments = new ArrayList<>();
 
 
     @Override
