@@ -1,5 +1,6 @@
 package org.example.englishforum.service;
 
+import org.example.englishforum.dto.UserDto;
 import org.example.englishforum.entity.User;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -11,4 +12,5 @@ public interface JwtService {
     boolean isTokenValid(String token, User userDetails);
 
     String generateRefreshToken(Map<String,Object> extractClaims, User userDetails);
+    UserDto findUserByToken(String token);
 }

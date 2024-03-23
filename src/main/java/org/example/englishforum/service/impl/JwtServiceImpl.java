@@ -6,8 +6,11 @@ import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import lombok.RequiredArgsConstructor;
+import org.example.englishforum.dto.UserDto;
 import org.example.englishforum.entity.User;
+import org.example.englishforum.repository.UserRepository;
 import org.example.englishforum.service.JwtService;
+import org.example.englishforum.utils.GenericMapper;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
@@ -19,6 +22,8 @@ import java.util.function.Function;
 @RequiredArgsConstructor
 @Service
 public class JwtServiceImpl implements JwtService {
+    private final UserRepository userRepository;
+    private final GenericMapper genericMapper;
 
     public String generateToken(User userDetails) {
         long expirationMillis = System.currentTimeMillis() + (30 * 24 * 60 * 60 * 1000L); // 30 days in milliseconds
@@ -26,7 +31,7 @@ public class JwtServiceImpl implements JwtService {
         return Jwts.builder()
                 .setSubject(userDetails.getEmail())
                 .setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration( new Date(expirationMillis)) // Set expiration to maximum possible value
+                .setExpiration(new Date(expirationMillis)) // Set expiration to maximum possible value
                 .signWith(getSignKey(), SignatureAlgorithm.HS256)
                 .compact();
     }
@@ -65,6 +70,13 @@ public class JwtServiceImpl implements JwtService {
                 .setExpiration(new Date(System.currentTimeMillis() + 1000000 * 60 * 60 * 10))
                 .signWith(getSignKey(), SignatureAlgorithm.HS256)
                 .compact();
+    }
+
+    @Override
+    public UserDto findUserByToken(String token) {
+        String email = extractUsername(token);
+        User user = userRepository.findByEmail(email).orElseThrow(() -> new RuntimeException("User not found"));
+        return genericMapper.map(user, UserDto.class);
     }
 
     private boolean isTokenExpired(String token) {

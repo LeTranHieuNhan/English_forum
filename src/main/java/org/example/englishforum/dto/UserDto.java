@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.example.englishforum.entity.Comment;
 import org.example.englishforum.entity.Post;
+import org.springframework.http.HttpStatusCode;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,7 +13,7 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class UserDto {
+public class UserDto  {
     private Long id;
     private String username;
     private String email;
