@@ -11,11 +11,10 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/v1/replycomment")
+@RequestMapping("/api/v1/replyComments")
 @RequiredArgsConstructor
 public class ReplyCommentController {
     private final ReplyCommentService replyCommentService;
-
 
 
     @PostMapping("/{commentId}/{userId}")
@@ -26,7 +25,7 @@ public class ReplyCommentController {
         return new ResponseEntity<>(savedReplyComment, HttpStatus.CREATED);
     }
 
-    @GetMapping("/{commentId}")
+    @GetMapping("/comments/{commentId}")
     public ResponseEntity<List<ReplyCommentDto>> getReplyCommentsByCommentId(@PathVariable("commentId") Long commentId) {
         List<ReplyCommentDto> replyComments = replyCommentService.getReplyCommentsByCommentId(commentId);
         return new ResponseEntity<>(replyComments, HttpStatus.OK);
@@ -44,9 +43,9 @@ public class ReplyCommentController {
         return new ResponseEntity<>(replyComment, HttpStatus.OK);
     }
 
-    @PutMapping
-    public ResponseEntity<ReplyCommentDto> updateReplyComment(@RequestBody ReplyCommentDto replyComment) {
-        ReplyCommentDto updatedReplyComment = replyCommentService.updateReplyComment(replyComment);
+    @PutMapping("/{id}")
+    public ResponseEntity<ReplyCommentDto> updateReplyComment(@PathVariable Long id, @RequestBody ReplyCommentDto replyComment) {
+        ReplyCommentDto updatedReplyComment = replyCommentService.updateReplyComment(replyComment, id);
         return new ResponseEntity<>(updatedReplyComment, HttpStatus.OK);
     }
 

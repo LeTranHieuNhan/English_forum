@@ -58,9 +58,21 @@ public class ReplyCommentServiceImpl implements ReplyCommentService {
     }
 
     @Override
-    public ReplyCommentDto updateReplyComment(ReplyCommentDto replyComment) {
-        ReplyComment replyCommentEntity = genericMapper.map(replyComment, ReplyComment.class);
+    public ReplyCommentDto updateReplyComment(ReplyCommentDto replyComment, Long id) {
+        Comment comment = commentRepository.findById(replyCommentRepository.findById(id).orElseThrow(() -> new RuntimeException("Reply Comment does not exist")).getComment().getId()).orElseThrow(() -> new RuntimeException("Comment does not exist"));
+
+        // Map the DTO to the entity
+        ReplyComment replyCommentEntity = replyCommentRepository.findById(id).orElseThrow(() -> new RuntimeException("Reply Comment does not exist"));
+        replyCommentEntity.setBody(replyComment.getBody());
+
+        // Set the associated Comment entity
+        replyCommentEntity.setComment(comment);
+
+        // Save the ReplyComment entity
+        replyCommentEntity.setTime_updated(new Date());
         ReplyComment updatedReplyComment = replyCommentRepository.save(replyCommentEntity);
+
+        // Map the updated entity back to DTO
         return genericMapper.map(updatedReplyComment, ReplyCommentDto.class);
     }
 }

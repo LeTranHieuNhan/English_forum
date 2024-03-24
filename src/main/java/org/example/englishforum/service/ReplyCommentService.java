@@ -14,5 +14,5 @@ public interface ReplyCommentService {
 
     public ReplyCommentDto getReplyCommentById(Long replyCommentId);
 
-    public ReplyCommentDto updateReplyComment(ReplyCommentDto replyComment);
+    public ReplyCommentDto updateReplyComment(ReplyCommentDto replyComment , Long id);
 }
