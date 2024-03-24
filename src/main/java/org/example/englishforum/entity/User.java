@@ -36,6 +36,8 @@ public class User implements UserDetails {
     private Role role;
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ReplyComment> replyComments = new ArrayList<>();
+    @OneToMany(mappedBy = "user")
+    private List<Report> reports = new ArrayList<>();
 
 
     @Override
