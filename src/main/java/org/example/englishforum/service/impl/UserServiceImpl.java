@@ -47,7 +47,7 @@ public class UserServiceImpl implements UserService {
             @Override
             public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
                 return userRepository.findByEmail(username)
-                        .orElseThrow(() -> new UsernameNotFoundException("User not found with email: " + username ));
+                        .orElseThrow(() -> new UsernameNotFoundException("User not found with email: " + username));
             }
         };
     }
@@ -96,20 +96,27 @@ public class UserServiceImpl implements UserService {
             throw new RuntimeException("User doesnt exit with ID " + id);
     }
 
+
     @Override
     @Transactional
     public UserDto updateUser(Long id, UserDto userDto) {
         Optional<User> user = userRepository.findById(id);
         if (user.isPresent()) {
-
-            user.get().setUsername(userDto.getUsername());
-            user.get().setEmail(userDto.getEmail());
-            user.get().setPassword(passwordEncoder.encode(userDto.getPassword()));
-            user.get().setAvatar(userDto.getAvatar());
-            user.get().setBan(false);
-
-            return genericMapper.map(user, UserDto.class);
-        } else
+            if (userDto.getPassword() != null) {
+                user.get().setPassword(passwordEncoder.encode(userDto.getPassword()));
+            }
+            if (userDto.getEmail() != null) {
+                user.get().setEmail(userDto.getEmail());
+            }
+            if (userDto.getUsername() != null) {
+                user.get().setUsername(userDto.getUsername());
+            }
+            if (userDto.getAvatar() != null) {
+                user.get().setAvatar(userDto.getAvatar());
+            }
+            return genericMapper.map(user.get(), UserDto.class);
+        } else {
             throw new RuntimeException(" User not found with id " + id);
+        }
     }
 }
