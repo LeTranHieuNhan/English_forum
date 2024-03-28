@@ -17,6 +17,6 @@ public class CommentDto {
     private String body;
 
     private UserDto user;
-    private ReplyCommentDto replyComment;
+    private List<ReplyCommentDto> replyComments;
 //    private PostDto postDto;
 }
