@@ -47,4 +47,8 @@ public class PostController {
     public void deletePost(@PathVariable Long id) {
         postService.deletePost(id);
     }
+    @GetMapping("/search")
+    public List<PostDto> searchPosts(@RequestParam String keyword) {
+        return postService.searchPosts(keyword);
+    }
 }

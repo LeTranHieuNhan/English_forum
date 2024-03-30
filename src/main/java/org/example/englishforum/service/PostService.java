@@ -11,9 +11,11 @@ public interface PostService {
 
     PostDto findPostById(Long id);
 
-    PostDto createPost(PostDto newPost,long userId, long categoryId);
+    PostDto createPost(PostDto newPost, long userId, long categoryId);
 
     void deletePost(Long id);
 
     PostDto updatePost(Long id, PostDto postDto);
+
+    public List<PostDto> searchPosts(String keyword);
 }

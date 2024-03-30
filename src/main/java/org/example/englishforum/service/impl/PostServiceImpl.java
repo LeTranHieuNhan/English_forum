@@ -24,6 +24,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.data.domain.Pageable;
 
@@ -135,6 +136,13 @@ public class PostServiceImpl implements PostService {
         } else {
             throw new RuntimeException("Post with id " + id + " not found");
         }
+    }
+
+    public List<PostDto> searchPosts(String keyword) {
+        List<Post> foundPosts = postRepository.searchByTitleOrText(keyword);
+        return foundPosts.stream()
+                .map(post -> genericMapper.map(post, PostDto.class))
+                .collect(Collectors.toList());
     }
 }
 
