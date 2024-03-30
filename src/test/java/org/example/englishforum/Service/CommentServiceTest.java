@@ -1,4 +1,4 @@
 package org.example.englishforum.Service;
 
-public class CommentService {
+public class CommentServiceTest {
 }
