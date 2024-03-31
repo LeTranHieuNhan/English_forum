@@ -144,5 +144,10 @@ public class PostServiceImpl implements PostService {
                 .map(post -> genericMapper.map(post, PostDto.class))
                 .collect(Collectors.toList());
     }
+
+    @Override
+    public void deleteAllPosts() {
+        postRepository.deleteAll();
+    }
 }
 

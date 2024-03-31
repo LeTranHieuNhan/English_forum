@@ -2,8 +2,6 @@ package org.example.englishforum.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.example.englishforum.dto.CommentDto;
-import org.example.englishforum.dto.PostDto;
-import org.example.englishforum.entity.Comment;
 import org.example.englishforum.service.CommentService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -39,7 +37,8 @@ public class CommentController {
     }
 
     @DeleteMapping("/{id}")
-    public void deleteComment(@PathVariable Long id) {
+    public ResponseEntity<Void> deleteComment(@PathVariable Long id) {
         commentService.deleteComment(id);
+        return null;
     }
 }

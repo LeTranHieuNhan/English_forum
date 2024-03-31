@@ -51,4 +51,10 @@ public class PostController {
     public List<PostDto> searchPosts(@RequestParam String keyword) {
         return postService.searchPosts(keyword);
     }
+
+    @DeleteMapping("/all")
+    public void deleteAllPosts() {
+        postService.deleteAllPosts();
+    }
+
 }
